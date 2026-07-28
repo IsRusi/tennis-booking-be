@@ -34,7 +34,7 @@ namespace TennisCourt.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValueSql("now()");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");

@@ -12,7 +12,7 @@ using TennisCourt.Infrastructure.Data;
 namespace TennisCourt.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260728160543_InitDb")]
+    [Migration("20260728161518_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -37,7 +37,7 @@ namespace TennisCourt.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasDefaultValueSql("now()");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
