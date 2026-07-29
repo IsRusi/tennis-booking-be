@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection") ?? "";
 
 builder.Services.AddDbContext(connectionString);
@@ -17,7 +16,6 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -25,6 +23,7 @@ if (app.Environment.IsDevelopment())
     {
         var services = scope.ServiceProvider;
         var context = services.GetRequiredService<AppDbContext>();
+        // context.Database.EnsureDeleted();
         await context.Database.MigrateAsync();
     }
 
