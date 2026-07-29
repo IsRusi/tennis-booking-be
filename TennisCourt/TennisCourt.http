@@ -4,3 +4,11 @@ GET {{TennisCourt_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+POST {{TennisCourt_HostAddress}}/users/users
+Content-Type: application/json
+
+{
+    "email":"test@test.com",
+    "Telephone":"375001234567",
+    "name":"Albert"
+}

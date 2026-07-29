@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TennisCourt.Features.Users;
 using TennisCourt.Infrastructure;
 using TennisCourt.Infrastructure.Data;
 
@@ -11,6 +12,8 @@ builder.Services.AddOpenApi();
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection") ?? "";
 
 builder.Services.AddDbContext(connectionString);
+builder.Services.AddUsersFeature();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -29,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+
 app.UseHttpsRedirection();
+app.MapControllers();
 
 app.Run();
