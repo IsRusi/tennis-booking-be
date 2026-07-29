@@ -12,7 +12,7 @@ using TennisCourt.Infrastructure.Data;
 namespace TennisCourt.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260728161518_InitDb")]
+    [Migration("20260729150141_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
