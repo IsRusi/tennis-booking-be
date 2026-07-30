@@ -1,7 +1,7 @@
 @TennisCourt_HostAddress = http://localhost:5189
 
 @USERS_CONTROLLER = users
-
+@Test_Id = 019fb33f-739b-7ab6-9a6c-f4a5a9709b5d
 GET {{TennisCourt_HostAddress}}/weatherforecast/
 Accept: application/json
 
@@ -14,3 +14,7 @@ Content-Type: application/json
     "Telephone":"375001234567",
     "name":"Albert"
 }
+
+###
+GET {{TennisCourt_HostAddress}}/{{USERS_CONTROLLER}}/{{Test_Id}}
+Content-Type: application/json

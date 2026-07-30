@@ -27,5 +27,19 @@ public class UsersController(IUsersService usersService) : Controller
         }
 
     }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var user = await usersService.GetByIdAsync(id, cancellationToken);
+
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
 }
