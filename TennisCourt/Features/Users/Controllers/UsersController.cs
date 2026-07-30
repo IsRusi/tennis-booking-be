@@ -8,7 +8,7 @@ namespace TennisCourt.Features.Users.Controllers;
 [Route("[controller]")]
 public class UsersController(IUsersService usersService) : Controller
 {
-    [HttpPost("users")]
+    [HttpPost]
     public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserRequest createUserRequest, CancellationToken cancellationToken = default)
     {
         try

@@ -11,11 +11,11 @@ public class UsersService(IUsersDataProvider usersDataProvider) : IUsersService
     {
 
         if (user.Email == string.Empty)
-            throw new ArgumentNullException(UserMessages.EmailIsEmpty);
+            throw new ArgumentNullException(UserMessages.EmailIsEmpty, nameof(user.Email));
         if (user.Telephone == string.Empty)
-            throw new ArgumentNullException(UserMessages.TelephoneIsEmpty);
+            throw new ArgumentNullException(UserMessages.TelephoneIsEmpty, nameof(user.Telephone));
         if (user.Name == string.Empty)
-            throw new ArgumentNullException(UserMessages.NameIsEmpty);
+            throw new ArgumentNullException(UserMessages.NameIsEmpty, nameof(user.Name));
 
 
         var userId = await usersDataProvider.CreateAsync(new User()
