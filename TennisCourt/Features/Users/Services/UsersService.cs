@@ -34,9 +34,13 @@ public class UsersService(IUsersDataProvider usersDataProvider) : IUsersService
     {
 
         if (id == Guid.Empty)
-            throw new ArgumentException(CommonMessages.IdIsEmpty);
+            throw new ArgumentNullException(CommonMessages.IdIsEmpty, nameof(CommonMessages.IdIsEmpty));
 
         var user = await usersDataProvider.GetByIdAsync(id, cancellationToken);
+
+        if (user is null)
+            throw new ArgumentNullException(UserMessages.IsNull, nameof(User));
+
         return new UserDto()
         {
             Id = user.Id,
