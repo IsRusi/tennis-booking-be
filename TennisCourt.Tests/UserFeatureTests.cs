@@ -12,7 +12,7 @@ namespace TennisCourt.Tests;
 public class UserFeatureTests
 {
 
-    private Guid exceptedId = Guid.NewGuid();
+    private Guid expectedId = Guid.NewGuid();
 
     [Fact]
     public async Task CreateUser_AllFieldsValid_ReturnId()
@@ -22,7 +22,7 @@ public class UserFeatureTests
 
         var mockDataProvider = new Mock<IUsersDataProvider>();
 
-        mockDataProvider.Setup(dataProvider => dataProvider.CreateAsync(It.IsAny<User>())).ReturnsAsync(exceptedId);
+        mockDataProvider.Setup(dataProvider => dataProvider.CreateAsync(It.IsAny<User>())).ReturnsAsync(expectedId);
 
         var mockObject = mockDataProvider.Object;
 
@@ -32,7 +32,7 @@ public class UserFeatureTests
         var result = await userService.CreateAsync(createUserDto);
 
         //Assert
-        Assert.Equal(exceptedId, result);
+        Assert.Equal(expectedId, result);
 
         mockDataProvider.Verify(
         dataProvider => dataProvider.CreateAsync(It.Is<User>(u => u.Name == createUserDto.Name)),
@@ -44,14 +44,13 @@ public class UserFeatureTests
     {
         //Arrange
         var createUserDto = new Faker<UserDto>()
-        .RuleFor(u => u.Email, f => f.Internet.Email(""))
+        .RuleFor(u => u.Email, f => "")
         .RuleFor(u => u.Name, f => f.Name.FirstName())
         .RuleFor(u => u.Telephone, f => f.Phone.PhoneNumber())
         .Generate();
 
         var mockDataProvider = new Mock<IUsersDataProvider>();
 
-        mockDataProvider.Setup(dataProvider => dataProvider.CreateAsync(It.IsAny<User>())).Throws(new ArgumentNullException(UserMessages.EmailIsEmpty, nameof(User.Email)));
         var mockObject = mockDataProvider.Object;
 
         var userService = new UsersService(mockObject);
@@ -60,7 +59,7 @@ public class UserFeatureTests
         var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.CreateAsync(createUserDto));
 
         //Assert
-        Assert.Equal(UserMessages.EmailIsEmpty, result.ParamName);
+        Assert.Equal(nameof(User.Email), result.ParamName);
         mockDataProvider.Verify(dataProvider => dataProvider.SaveChangesAsync(), Times.Never);
     }
 
@@ -69,13 +68,12 @@ public class UserFeatureTests
     {
         var createUserDto = new Faker<UserDto>()
         .RuleFor(u => u.Email, f => f.Internet.Email())
-        .RuleFor(u => u.Name, f => f.Person.FirstName = "")
+        .RuleFor(u => u.Name, f => "")
         .RuleFor(u => u.Telephone, f => f.Phone.PhoneNumber())
         .Generate();
 
         var mockDataProvider = new Mock<IUsersDataProvider>();
 
-        mockDataProvider.Setup(dataProvider => dataProvider.CreateAsync(It.IsAny<User>())).Throws(new ArgumentNullException(UserMessages.NameIsEmpty, nameof(User.Name)));
         var mockObject = mockDataProvider.Object;
 
         var userService = new UsersService(mockObject);
@@ -84,7 +82,7 @@ public class UserFeatureTests
         var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.CreateAsync(createUserDto));
 
         //Assert
-        Assert.Equal(UserMessages.NameIsEmpty, result.ParamName);
+        Assert.Equal(nameof(User.Name), result.ParamName);
         mockDataProvider.Verify(dataProvider => dataProvider.SaveChangesAsync(), Times.Never);
     }
     [Fact]
@@ -93,12 +91,11 @@ public class UserFeatureTests
         var createUserDto = new Faker<UserDto>()
         .RuleFor(u => u.Email, f => f.Internet.Email())
         .RuleFor(u => u.Name, f => f.Name.FirstName())
-        .RuleFor(u => u.Telephone, f => f.Phone.PhoneNumber(""))
+        .RuleFor(u => u.Telephone, f => "")
         .Generate();
 
         var mockDataProvider = new Mock<IUsersDataProvider>();
 
-        mockDataProvider.Setup(dataProvider => dataProvider.CreateAsync(It.IsAny<User>())).Throws(new ArgumentNullException(UserMessages.TelephoneIsEmpty, nameof(User.Telephone)));
         var mockObject = mockDataProvider.Object;
 
         var userService = new UsersService(mockObject);
@@ -107,7 +104,7 @@ public class UserFeatureTests
         var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.CreateAsync(createUserDto));
 
         //Assert
-        Assert.Equal(UserMessages.TelephoneIsEmpty, result.ParamName);
+        Assert.Equal(nameof(User.Telephone), result.ParamName);
         mockDataProvider.Verify(dataProvider => dataProvider.SaveChangesAsync(), Times.Never);
     }
     [Fact]
@@ -116,7 +113,7 @@ public class UserFeatureTests
         //Arrange
         var exceptedRole = "Client";
         var exceptedReturnUser = new Faker<User>()
-        .RuleFor(u => u.Id, f => exceptedId)
+        .RuleFor(u => u.Id, f => expectedId)
         .RuleFor(u => u.Email, f => f.Internet.Email())
         .RuleFor(u => u.Name, f => f.Name.FirstName())
         .RuleFor(u => u.Telephone, f => f.Phone.PhoneNumber())
@@ -132,7 +129,7 @@ public class UserFeatureTests
         var userService = new UsersService(mockObject);
 
         //Act
-        var result = await userService.GetByIdAsync(exceptedId);
+        var result = await userService.GetByIdAsync(expectedId);
 
         //Assert
         Assert.Equal(exceptedReturnUser.Id, result.Id);
@@ -148,17 +145,17 @@ public class UserFeatureTests
         //Arrange
         var mockDataProvider = new Mock<IUsersDataProvider>();
 
-        mockDataProvider.Setup(dataProvider => dataProvider.GetByIdAsync(exceptedId)).ReturnsAsync((User)null);
+        mockDataProvider.Setup(dataProvider => dataProvider.GetByIdAsync(expectedId)).ReturnsAsync((User)null);
 
         var mockObject = mockDataProvider.Object;
 
         var userService = new UsersService(mockObject);
 
         //Act
-        var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.GetByIdAsync(exceptedId));
+        var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.GetByIdAsync(expectedId));
 
         //Assert
-        Assert.Equal(UserMessages.IsNull, result.ParamName);
+        Assert.Equal(nameof(User), result.ParamName);
     }
 
     [Fact]
@@ -180,6 +177,6 @@ public class UserFeatureTests
         var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.GetByIdAsync(searchId));
 
         //Assert
-        Assert.Equal(CommonMessages.IdIsEmpty, result.ParamName);
+        Assert.Equal(nameof(CommonMessages.IdIsEmpty), result.ParamName);
     }
 }
