@@ -11,11 +11,11 @@ public class UsersService(IUsersDataProvider usersDataProvider) : IUsersService
     {
 
         if (user.Email == string.Empty)
-            throw new ArgumentNullException(UserMessages.EmailIsEmpty, nameof(user.Email));
+            throw new ArgumentNullException(nameof(user.Email), UserMessages.EmailIsEmpty);
         if (user.Telephone == string.Empty)
-            throw new ArgumentNullException(UserMessages.TelephoneIsEmpty, nameof(user.Telephone));
+            throw new ArgumentNullException(nameof(user.Telephone), UserMessages.TelephoneIsEmpty);
         if (user.Name == string.Empty)
-            throw new ArgumentNullException(UserMessages.NameIsEmpty, nameof(user.Name));
+            throw new ArgumentNullException(nameof(user.Name), UserMessages.NameIsEmpty);
 
 
         var userId = await usersDataProvider.CreateAsync(new User()
@@ -34,12 +34,12 @@ public class UsersService(IUsersDataProvider usersDataProvider) : IUsersService
     {
 
         if (id == Guid.Empty)
-            throw new ArgumentNullException(CommonMessages.IdIsEmpty, nameof(CommonMessages.IdIsEmpty));
+            throw new ArgumentNullException(nameof(CommonMessages.IdIsEmpty), CommonMessages.IdIsEmpty);
 
         var user = await usersDataProvider.GetByIdAsync(id, cancellationToken);
 
         if (user is null)
-            throw new ArgumentNullException(UserMessages.IsNull, nameof(User));
+            throw new ArgumentNullException(nameof(User), UserMessages.IsNull);
 
         return new UserDto()
         {

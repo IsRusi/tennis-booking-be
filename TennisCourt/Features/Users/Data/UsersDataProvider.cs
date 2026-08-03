@@ -11,7 +11,7 @@ public class UsersDataProvider(AppDbContext context) : IUsersDataProvider
     public async Task<Guid> CreateAsync(User user, CancellationToken cancellationToken = default)
     {
         if (user is null)
-            throw new ArgumentNullException(UserMessages.IsNull, nameof(user));
+            throw new ArgumentNullException(nameof(user), UserMessages.IsNull);
 
         user.Role = ROLE_CLIENT;
 
