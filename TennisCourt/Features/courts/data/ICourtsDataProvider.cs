@@ -1,7 +1,6 @@
-using System.Collections;
 using TennisCourt.Infrastructure.Entities;
 
-namespace TennisCourt.Features.Courts;
+namespace TennisCourt.Features.Courts.Data;
 
 public interface ICourtsDataProvider
 {

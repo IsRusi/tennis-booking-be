@@ -3,7 +3,7 @@ using TennisCourt.Infrastructure.Constants;
 using TennisCourt.Infrastructure.Data;
 using TennisCourt.Infrastructure.Entities;
 
-namespace TennisCourt.Features.Courts;
+namespace TennisCourt.Features.Courts.Data;
 
 public class CourtsDataProvider(AppDbContext context) : ICourtsDataProvider
 {
