@@ -10,11 +10,11 @@ public class CourtsService(ICourtsDataProvider courtsDataProvider) : ICourtsServ
     public async Task<Guid> CreateAsync(CreateCourtDto court, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(court.Street))
-            throw new ArgumentNullException(nameof(court.Street), CourtMessages.IsEmpty<string>(court.Street));
+            throw new ArgumentNullException(nameof(court.Street), CourtMessages.StreetIsEmpty);
         if (string.IsNullOrEmpty(court.Name))
-            throw new ArgumentNullException(nameof(court.Name), CourtMessages.IsEmpty<string>(court.Name));
+            throw new ArgumentNullException(nameof(court.Name), CourtMessages.NameIsEmpty);
         if (string.IsNullOrEmpty(court.SurfaceType))
-            throw new ArgumentNullException(nameof(court.SurfaceType), CourtMessages.IsEmpty<string>(court.SurfaceType));
+            throw new ArgumentNullException(nameof(court.SurfaceType), CourtMessages.SurfaceTypeIsEmpty);
 
 
         var recievedId = await courtsDataProvider.CreateAsync(new Court()

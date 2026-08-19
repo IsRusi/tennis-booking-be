@@ -33,7 +33,7 @@ POST {{TennisCourt_HostAddress}}/{{COURTS_CONTROLLER}}
 Content-Type: application/json
 
 {
-    "street":"test@test.com",
+    "street":"ul. leninskaya 5",
     "name":"test",
     "surfaceType":"flat",
     "isIndoor":false
