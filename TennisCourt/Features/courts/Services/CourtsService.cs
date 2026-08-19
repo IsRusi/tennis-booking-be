@@ -48,12 +48,12 @@ public class CourtsService(ICourtsDataProvider courtsDataProvider) : ICourtsServ
     public async Task<CourtDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         if (id == Guid.Empty)
-            throw new ArgumentNullException(nameof(id), CourtMessages.IdIsEmpty);
+            throw new ArgumentNullException(nameof(Guid), CourtMessages.IdIsEmpty);
 
         var court = await courtsDataProvider.GetByIdAsync(id, cancellationToken);
 
         if (court is null)
-            throw new ArgumentNullException(nameof(court), CourtMessages.IsNull);
+            throw new ArgumentNullException(nameof(Court), CourtMessages.IsNull);
 
         return new CourtDto()
         {

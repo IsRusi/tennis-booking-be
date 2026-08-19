@@ -145,4 +145,75 @@ public class CourtsFeatureTests
         Assert.Equal(courts.Count, result.Count());
     }
 
+    [Fact]
+    public async Task GetById_CourtIsFoundByCorrectId_ReturnsCourt()
+    {
+        //Arrange
+        var exceptedReturnCourt = new Faker<Court>()
+        .RuleFor(court => court.Street, f => f.Address.StreetName())
+        .RuleFor(court => court.Name, f => f.Company.CompanyName())
+        .RuleFor(court => court.SurfaceType, f => "Hard")
+        .RuleFor(court => court.IsIndoor, f => true)
+        .Generate();
+
+        var mockDataProvider = new Mock<ICourtsDataProvider>();
+
+        mockDataProvider.Setup(dataProvider => dataProvider.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(exceptedReturnCourt);
+
+        var mockObject = mockDataProvider.Object;
+
+        var courtsService = new CourtsService(mockObject);
+
+        //Act
+        var result = await courtsService.GetByIdAsync(expectedId);
+
+        //Assert
+        Assert.Equal(exceptedReturnCourt.Id, result.Id);
+        Assert.Equal(exceptedReturnCourt.Name, result.Name);
+        Assert.Equal(exceptedReturnCourt.Street, result.Street);
+        Assert.Equal(exceptedReturnCourt.SurfaceType, result.SurfaceType);
+        Assert.Equal(exceptedReturnCourt.IsIndoor, result.IsIndoor);
+    }
+
+    [Fact]
+    public async Task GetById_CourtIsNotFoundByCorrectId_ReturnsError()
+    {
+        //Arrange
+        var mockDataProvider = new Mock<ICourtsDataProvider>();
+
+        mockDataProvider.Setup(dataProvider => dataProvider.GetByIdAsync(expectedId)).ReturnsAsync((Court)null);
+
+        var mockObject = mockDataProvider.Object;
+
+        var courtsService = new CourtsService(mockObject);
+
+        //Act
+        var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await courtsService.GetByIdAsync(expectedId));
+
+        //Assert
+        Assert.Equal(nameof(Court), result.ParamName);
+    }
+
+    [Fact]
+    public async Task GetById_IdIsEmpty_ReturnsError()
+    {
+        //Arrange
+        Guid searchId = Guid.Empty;
+
+        var mockDataProvider = new Mock<ICourtsDataProvider>();
+
+        //mock setup
+        mockDataProvider.Setup(dataProvider => dataProvider.GetByIdAsync(searchId)).ReturnsAsync((Court)null);
+
+        var mockObject = mockDataProvider.Object;
+
+        var courtsService = new CourtsService(mockObject);
+
+        //Act
+        var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await courtsService.GetByIdAsync(searchId));
+
+        //Assert
+        Assert.Equal(nameof(Guid), result.ParamName);
+    }
+
 }
