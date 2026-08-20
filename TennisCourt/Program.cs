@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TennisCourt.Features.Courts;
+using TennisCourt.Features.Schedulers;
 using TennisCourt.Features.Users;
 using TennisCourt.Infrastructure;
 using TennisCourt.Infrastructure.Data;
@@ -14,6 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString("PostgresConnec
 builder.Services.AddDbContext(connectionString);
 builder.Services.AddUsersFeature();
 builder.Services.AddCourtsFeature();
+builder.Services.AddSchedulersFeature();
 builder.Services.AddControllers();
 
 var app = builder.Build();
